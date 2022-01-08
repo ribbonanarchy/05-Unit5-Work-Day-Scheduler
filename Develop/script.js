@@ -27,13 +27,13 @@ for(var i=9; i<=17; i++) {
     }
     timeblock.append(hourElement);
 
-    eventElement = $('<div>');
+    eventElement = $('<input>');
     eventElement.attr('class', 'col-9');
     eventElement.text('testing...');
     timeblock.append(eventElement);
 
     saveButton = $('<button>');
-    saveButton.attr('class', 'saveBtn col-1');
+    saveButton.attr('class', 'saveBtn col-1 button'+i);
     saveButton.html('<img src="https://img.icons8.com/windows/32/000000/save--v1.png"/>');
     timeblock.append(saveButton);
 
@@ -46,9 +46,16 @@ for(var i=9; i<=17; i++) {
     } else {
         eventElement.attr('class', 'future col-9');
     }
-
-
 }    
+
+function eventHandler (event) {
+    var target = event.target;
+    console.log(target);
+}
+
+containerElement.on('click', '.saveBtn', eventHandler);
+
+
 
 // WHEN I click into a timeblock
 // THEN I can enter an event
