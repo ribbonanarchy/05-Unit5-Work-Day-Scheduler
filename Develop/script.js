@@ -9,12 +9,14 @@ var currentHour = moment().hour();
 
 $('#currentDay').text(today);
 
+renderLastEntered();
 
 // Show timeblocks for each hour (military time is easier)
 // for loop to append divs for each hour
 for(var i=9; i<=17; i++) {
     timeblock = $('<div>');
     timeblock.attr('class', 'time-block row');
+    timeblock.attr('data-id', i);
 
     hourElement = $('<div>');
     hourElement.attr('class', 'col-2 hour');
@@ -28,12 +30,12 @@ for(var i=9; i<=17; i++) {
     timeblock.append(hourElement);
 
     eventElement = $('<input>');
-    eventElement.attr('class', 'col-9');
-    eventElement.text('testing...');
+    eventElement.attr('class', 'col-9 textbox');
+    eventElement.attr('id', 'textbox'+i);
     timeblock.append(eventElement);
 
     saveButton = $('<button>');
-    saveButton.attr('class', 'saveBtn col-1 button'+i);
+    saveButton.attr('class', 'saveBtn col-1 button');
     saveButton.html('<img src="https://img.icons8.com/windows/32/000000/save--v1.png"/>');
     timeblock.append(saveButton);
 
@@ -49,9 +51,36 @@ for(var i=9; i<=17; i++) {
 }    
 
 function eventHandler (event) {
-    var target = event.target;
-    console.log(target);
+    event.preventDefault();
+
+    var target = event.currentTarget;
+
+    var currentId = target.parentElement.dataset.id;
+    console.log(currentId);
+
+    var inputText = $('#textbox'+currentId).val();
+    console.log(inputText);
+
+    localStorage.setItem('input'+currentId, inputText);
+
 }
+
+function renderLastEntered() {
+    var inputText;
+    
+    for(var i=9; i<=17; i++){
+        inputText = localStorage.getItem('input'+i);
+    
+        console.log(inputText);
+        
+        if (!inputText) {
+            continue;
+        }
+  
+        $('#textbox'+i).val(inputText);
+
+    }
+  }
 
 containerElement.on('click', '.saveBtn', eventHandler);
 
