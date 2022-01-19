@@ -9,7 +9,7 @@ var currentHour = moment().hour();
 
 $('#currentDay').text(today);
 
-renderLastEntered();
+
 
 // Show timeblocks for each hour (military time is easier)
 // for loop to append divs for each hour
@@ -50,6 +50,8 @@ for(var i=9; i<=17; i++) {
     }
 }    
 
+renderLastEntered();
+
 function eventHandler (event) {
     event.preventDefault();
 
@@ -69,6 +71,7 @@ function renderLastEntered() {
     var inputText;
     
     for(var i=9; i<=17; i++){
+        var inputElement = document.getElementById('textbox'+i);
         inputText = localStorage.getItem('input'+i);
     
         console.log(inputText);
@@ -77,18 +80,9 @@ function renderLastEntered() {
             continue;
         }
   
-        $('#textbox'+i).val(inputText);
+        inputElement.value = inputText;
 
     }
   }
 
 containerElement.on('click', '.saveBtn', eventHandler);
-
-
-
-// WHEN I click into a timeblock
-// THEN I can enter an event
-// WHEN I click the save button for that timeblock
-// THEN the text for that event is saved in local storage
-// WHEN I refresh the page
-// THEN the saved events persist
